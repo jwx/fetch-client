@@ -1,6 +1,6 @@
 
-export function json(body) {
-  return new Blob([JSON.stringify(body !== undefined ? body : {})], { type: 'application/json' });
+export function json(body, replacer) {
+  return new Blob([JSON.stringify(body !== undefined ? body : {}, replacer)], { type: 'application/json' });
 }
 
 export let HttpClientConfiguration = class HttpClientConfiguration {
@@ -103,7 +103,7 @@ export let HttpClient = class HttpClient {
         request = Promise.resolve(result);
         response = fetch(result);
       } else {
-        throw new Error(`An invalid result was returned by the interceptor chain. Expected a Request or Response instance, but got [${ result }]`);
+        throw new Error(`An invalid result was returned by the interceptor chain. Expected a Request or Response instance, but got [${result}]`);
       }
 
       return request.then(_request => processResponse(response, this.interceptors, _request));
@@ -116,7 +116,7 @@ export let HttpClient = class HttpClient {
 const absoluteUrlRegexp = /^([a-z][a-z0-9+\-.]*:)?\/\//i;
 
 function trackRequestStart() {
-  this.isRequesting = !! ++this.activeRequestCount;
+  this.isRequesting = !!++this.activeRequestCount;
 }
 
 function trackRequestEnd() {

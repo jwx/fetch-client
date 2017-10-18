@@ -9,13 +9,13 @@ define(['exports'], function (exports) {
   var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
     return typeof obj;
   } : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
   };
 
   
 
-  function json(body) {
-    return new Blob([JSON.stringify(body !== undefined ? body : {})], { type: 'application/json' });
+  function json(body, replacer) {
+    return new Blob([JSON.stringify(body !== undefined ? body : {}, replacer)], { type: 'application/json' });
   }
 
   var HttpClientConfiguration = exports.HttpClientConfiguration = function () {
@@ -155,7 +155,7 @@ define(['exports'], function (exports) {
   var absoluteUrlRegexp = /^([a-z][a-z0-9+\-.]*:)?\/\//i;
 
   function trackRequestStart() {
-    this.isRequesting = !! ++this.activeRequestCount;
+    this.isRequesting = !!++this.activeRequestCount;
   }
 
   function trackRequestEnd() {

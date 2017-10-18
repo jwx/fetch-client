@@ -1,9 +1,9 @@
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 
 
-export function json(body) {
-  return new Blob([JSON.stringify(body !== undefined ? body : {})], { type: 'application/json' });
+export function json(body, replacer) {
+  return new Blob([JSON.stringify(body !== undefined ? body : {}, replacer)], { type: 'application/json' });
 }
 
 export var HttpClientConfiguration = function () {
@@ -143,7 +143,7 @@ export var HttpClient = function () {
 var absoluteUrlRegexp = /^([a-z][a-z0-9+\-.]*:)?\/\//i;
 
 function trackRequestStart() {
-  this.isRequesting = !! ++this.activeRequestCount;
+  this.isRequesting = !!++this.activeRequestCount;
 }
 
 function trackRequestEnd() {
